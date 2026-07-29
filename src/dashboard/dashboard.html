@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard — Project Management Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="brand">PulseBoard</div>
+            <nav>
+                <a class="nav-item active" href="dashboard.html">Dashboard</a>
+                <a class="nav-item" href="projects.html">Projects</a>
+                <a class="nav-item" href="tasks.html">Tasks</a>
+            </nav>
+        </aside>
+
+        <div class="main">
+            <header class="topbar">
+                <h1>Dashboard</h1>
+                <div class="topbar-actions">
+                    <input type="text" class="search" placeholder="Search projects, tasks..." />
+                    <div class="avatar">MK</div>
+                </div>
+            </header>
+
+            <main class="content">
+                <section class="stat-grid">
+                    <div class="stat-card">
+                        <p class="stat-label">Total Projects</p>
+                        <p class="stat-value">12</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Active Projects</p>
+                        <p class="stat-value">7</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Completed Projects</p>
+                        <p class="stat-value">5</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Overdue Tasks</p>
+                        <p class="stat-value">4</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Total Tasks</p>
+                        <p class="stat-value">86</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Completed Tasks</p>
+                        <p class="stat-value">54</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Upcoming Deadlines</p>
+                        <p class="stat-value">6</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="stat-label">Average Progress</p>
+                        <p class="stat-value">63%</p>
+                    </div>
+                </section>
+
+                <section class="row">
+                    <div class="panel">
+                        <h2>Project Progress</h2>
+                        <ul class="progress-list">
+                            <li class="progress-item">
+                                <span class="progress-name">Riverside Apartments Site Plan</span>
+                                <span class="progress-pct">75%</span>
+                            </li>
+                            <li class="progress-item">
+                                <span class="progress-name">Client Portal Redesign</span>
+                                <span class="progress-pct">40%</span>
+                            </li>
+                            <li class="progress-item">
+                                <span class="progress-name">Q3 Marketing Launch</span>
+                                <span class="progress-pct">100%</span>
+                            </li>
+                            <li class="progress-item">
+                                <span class="progress-name">Warehouse Inventory System</span>
+                                <span class="progress-pct">20%</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="panel">
+                        <h2>Upcoming Deadlines</h2>
+                        <ul class="deadline-list">
+                            <li class="deadline-item">
+                                <span>Finalize floor plans</span>
+                                <span class="tag tag-high">High · 2 days</span>
+                            </li>
+                            <li class="deadline-item">
+                                <span>Client review call</span>
+                                <span class="tag tag-med">Medium · 4 days</span>
+                            </li>
+                            <li class="deadline-item">
+                                <span>Inventory data migration</span>
+                                <span class="tag tag-high">High · 5 days</span>
+                            </li>
+                            <li class="deadline-item">
+                                <span>Marketing asset handoff</span>
+                                <span class="tag tag-low">Low · 9 days</span>
+                            </li>
+                            <li class="deadline-item">
+                                <span>Portal UAT sign-off</span>
+                                <span class="tag tag-med">Medium · 11 days</span>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
