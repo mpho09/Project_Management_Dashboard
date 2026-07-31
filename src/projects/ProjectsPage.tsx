@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
+
 export default function ProjectsPage() {
+
   return (
     <>
       <header className="topbar">
@@ -31,7 +33,6 @@ export default function ProjectsPage() {
         </div>
 
         <section className="grid" id="cardGrid">
-
           <Link
             className="card"
             data-status="active"
@@ -43,12 +44,11 @@ export default function ProjectsPage() {
               <span className="card-id">#PRJ-014</span>
             </div>
 
-            <h3 className="card-title">
-              Riverside Apartments Site Plan
-            </h3>
+            <h3 className="card-title">Riverside Apartments Site Plan</h3>
 
             <p className="card-desc">
-              Structural and layout planning for the new residential block phase 2.
+              Structural and layout planning for the new residential block phase
+              2.
             </p>
 
             <div className="bar-track">
@@ -72,12 +72,11 @@ export default function ProjectsPage() {
               <span className="card-id">#PRJ-027</span>
             </div>
 
-            <h3 className="card-title">
-              Warehouse Inventory System
-            </h3>
+            <h3 className="card-title">Warehouse Inventory System</h3>
 
             <p className="card-desc">
-              Barcode scanning and stock reconciliation tooling for the main depot.
+              Barcode scanning and stock reconciliation tooling for the main
+              depot.
             </p>
 
             <div className="bar-track">
@@ -89,7 +88,6 @@ export default function ProjectsPage() {
               <span>Overdue 3 days</span>
             </div>
           </Link>
-
         </section>
       </main>
     </>
