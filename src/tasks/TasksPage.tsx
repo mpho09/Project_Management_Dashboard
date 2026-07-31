@@ -1,11 +1,20 @@
+import { useState } from "react";
+
 // src/tasks/TasksPage.tsx
 
 export default function TasksPage() {
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+
   return (
     <>
       <header className="topbar">
         <h1>Tasks</h1>
-        <button className="btn-primary">+ New Task</button>
+        <button
+          className="btn-primary"
+          onClick={() => setIsTaskModalOpen(true)}
+        >
+          + New Task
+        </button>
       </header>
 
       <main className="content">
@@ -76,6 +85,11 @@ export default function TasksPage() {
 
         {/* New Task modal and Task Detail modal go here as separate
             components once we wire up useState for open/close + form fields */}
+        {isTaskModalOpen && (
+          <div>
+            <p>New Task Modal Coming Soon...</p>
+          </div>
+        )}
       </main>
     </>
   );
