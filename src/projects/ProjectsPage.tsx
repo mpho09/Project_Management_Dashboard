@@ -14,6 +14,8 @@ export default function ProjectsPage() {
 
   const [showModal, setShowModal] = useState(false);
 
+  const [search, setSearch] = useState("");
+
   const [projects, setProjects] = useState<Project[]>([
     {
       id: "PRJ-014",
@@ -41,6 +43,7 @@ export default function ProjectsPage() {
     description: "",
     dueDate: "",
   });
+
 
 
   function createProject() {
@@ -75,6 +78,13 @@ export default function ProjectsPage() {
 
 
 
+  // SEARCH FUNCTION
+  const filteredProjects = projects.filter((project) =>
+    project.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+
+
   return (
     <>
 
@@ -88,7 +98,10 @@ export default function ProjectsPage() {
           <input
             className="search"
             placeholder="Search projects..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
+
 
           <div className="avatar">
             MK
@@ -107,11 +120,10 @@ export default function ProjectsPage() {
 
 
           <div className="filters">
-            
-         <button className="filter-btn">
-              All
-          </button>
 
+            <button className="filter-btn">
+              All
+            </button>
 
 
             <button className="filter-btn">
@@ -145,80 +157,89 @@ export default function ProjectsPage() {
 
 
 
-
         <section className="grid">
 
 
-          {projects.map((project) => (
+          {filteredProjects.length === 0 ? (
 
-            <Link
-              key={project.id}
-              className="card"
-              to={`/projects/${project.id}`}
-            >
+            <p className="error-message">
+              No projects found. Try another search.
+            </p>
 
+          ) : (
 
-              <div className="card-top">
+            filteredProjects.map((project) => (
 
-
-                <span className="status">
-                  {project.status}
-                </span>
-
-
-                <span className="card-id">
-                  #{project.id}
-                </span>
+              <Link
+                key={project.id}
+                className="card"
+                to={`/projects/${project.id}`}
+              >
 
 
-              </div>
+                <div className="card-top">
 
 
-
-              <h3 className="card-title">
-                {project.name}
-              </h3>
-
+                  <span className="status">
+                    {project.status}
+                  </span>
 
 
-              <p className="card-desc">
-                {project.description}
-              </p>
+                  <span className="card-id">
+                    #{project.id}
+                  </span>
+
+
+                </div>
 
 
 
-              <div className="bar-track">
-
-                <div
-                  className="bar-fill"
-                  style={{
-                    width: `${project.progress}%`
-                  }}
-                />
-
-              </div>
+                <h3 className="card-title">
+                  {project.name}
+                </h3>
 
 
 
-              <div className="card-meta">
-
-                <span>
-                  {project.progress}% complete
-                </span>
-
-
-                <span>
-                  Due {project.dueDate}
-                </span>
-
-
-              </div>
+                <p className="card-desc">
+                  {project.description}
+                </p>
 
 
 
-            </Link>
+                <div className="bar-track">
 
-          ))}
+                  <div
+                    className="bar-fill"
+                    style={{
+                      width: `${project.progress}%`
+                    }}
+                  />
+
+                </div>
+
+
+
+                <div className="card-meta">
+
+                  <span>
+                    {project.progress}% complete
+                  </span>
+
+
+                  <span>
+                    Due {project.dueDate}
+                  </span>
+
+
+                </div>
+
+
+
+              </Link>
+
+            ))
+
+          )}
 
 
         </section>
