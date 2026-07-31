@@ -5,6 +5,36 @@ import { useState } from "react";
 export default function TasksPage() {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState("");
+  const [status, setStatus] = useState("To Do");
+
+  const [error, setError] = useState("");
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!title.trim()) {
+      setError("Task title is required.");
+      return;
+    }
+
+    if (!description.trim()) {
+      setError("Description is required.");
+      return;
+    }
+
+    if (!priority) {
+      setError("Please select a priority.");
+      return;
+    }
+
+    setError("");
+
+    alert("Validation passed!");
+  }
+
   return (
     <>
       <header className="topbar">
@@ -86,8 +116,62 @@ export default function TasksPage() {
         {/* New Task modal and Task Detail modal go here as separate
             components once we wire up useState for open/close + form fields */}
         {isTaskModalOpen && (
-          <div>
-            <p>New Task Modal Coming Soon...</p>
+          <div className="modal">
+            <h2>New Task</h2>
+
+            <form onSubmit={handleSubmit}>
+              {error && (
+                <p style={{ color: "red", marginBottom: "1rem" }}>{error}</p>
+              )}
+              <div>
+                <label>Title</label>
+
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label>Description</label>
+
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label>Priority</label>
+
+                <select
+                  value={priority}
+                  onChange={(e) => setPriority(e.target.value)}
+                >
+                  <option value="">Select Priority</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+
+              <div>
+                <label>Status</label>
+
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                >
+                  <option>To Do</option>
+                  <option>In Progress</option>
+                  <option>In Review</option>
+                  <option>Completed</option>
+                </select>
+              </div>
+
+              <button type="submit">Save Task</button>
+            </form>
           </div>
         )}
       </main>
