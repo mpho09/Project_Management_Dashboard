@@ -43,22 +43,6 @@ const PROJECTS: Project[] = [
     pct: 100,
     due: "Delivered 2 Jul",
   },
-  {
-    id: "prj-040",
-    name: "Q3 Marketing Site",
-    desc: "Campaign landing pages and CMS integration for the autumn push.",
-    status: "active",
-    pct: 55,
-    due: "Due 5 Sep",
-  },
-  {
-    id: "prj-022",
-    name: "Data Warehouse Migration",
-    desc: "Move legacy reporting tables to the new cloud data warehouse.",
-    status: "at-risk",
-    pct: 33,
-    due: "Due 19 Aug",
-  },
 ];
 
 
@@ -96,6 +80,8 @@ const barTone: Record<Project["status"], string> = {
 
 export default function ProjectsPage() {
 
+  const [projects, setProjects] = useState<Project[]>(PROJECTS);
+
   const [search, setSearch] = useState("");
 
   const [filter, setFilter] = useState<Filter>("All");
@@ -113,9 +99,29 @@ export default function ProjectsPage() {
 
   const createProject = () => {
 
-    console.log(newProject);
+    if (!newProject.name || !newProject.description) {
+      return;
+    }
+
+
+    const project: Project = {
+      id: `prj-${Date.now()}`,
+      name: newProject.name,
+      desc: newProject.description,
+      status: "active",
+      pct: 0,
+      due: newProject.dueDate || "No due date",
+    };
+
+
+    setProjects((prev) => [
+      ...prev,
+      project,
+    ]);
+
 
     setShowModal(false);
+
 
     setNewProject({
       name: "",
@@ -130,7 +136,8 @@ export default function ProjectsPage() {
 
     const q = search.trim().toLowerCase();
 
-    return PROJECTS.filter((p) => {
+
+    return projects.filter((p) => {
 
       const matchesSearch =
         !q ||
@@ -149,7 +156,8 @@ export default function ProjectsPage() {
 
     });
 
-  }, [search, filter]);  return (
+  }, [search, filter, projects]);
+    return (
     <>
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-surface/80 px-8 py-4 backdrop-blur">
 
@@ -159,7 +167,7 @@ export default function ProjectsPage() {
           </h1>
 
           <p className="text-xs text-ink-faint">
-            {PROJECTS.length} projects total
+            {projects.length} projects total
           </p>
         </div>
 
@@ -170,7 +178,7 @@ export default function ProjectsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             type="text"
-            placeholder="Search projects…"
+            placeholder="Search projects..."
             className="h-9 w-64 rounded-lg border border-line bg-surface-sunken px-3 text-sm outline-none transition focus:border-brand-500 focus:bg-surface"
           />
 
@@ -197,17 +205,13 @@ export default function ProjectsPage() {
             {FILTERS.map((f) => (
 
               <button
-
                 key={f}
-
                 onClick={() => setFilter(f)}
-
-                className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
                   filter === f
                     ? "bg-brand-500 text-white"
                     : "text-ink-soft hover:bg-surface-sunken"
                 }`}
-
               >
 
                 {f}
@@ -222,11 +226,8 @@ export default function ProjectsPage() {
 
 
           <button
-
             onClick={() => setShowModal(true)}
-
-            className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600"
-
+            className="rounded-lg bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-brand-600"
           >
 
             + New Project
@@ -239,10 +240,10 @@ export default function ProjectsPage() {
 
 
 
+
         {visible.length === 0 ? (
 
           <div className="grid place-items-center rounded-xl border border-dashed border-line bg-surface py-20 text-center">
-
 
             <p className="text-sm font-semibold text-ink">
               No projects match that
@@ -267,22 +268,17 @@ export default function ProjectsPage() {
 
 
               <Link
-
                 key={p.id}
-
                 to={`/projects/${p.id}`}
-
-                className="group flex flex-col rounded-xl border border-line bg-surface p-5 shadow-card transition hover:-translate-y-0.5 hover:border-brand-100 hover:shadow-raised"
-
+                className="group flex flex-col rounded-xl border border-line bg-surface p-5 shadow-card transition hover:-translate-y-1 hover:border-brand-200 hover:shadow-raised"
               >
-
 
 
                 <div className="mb-3 flex items-center justify-between">
 
 
                   <span
-                    className={`rounded-md px-2 py-0.5 text-xs font-semibold ${statusStyle[p.status]}`}
+                    className={`rounded-md px-2 py-1 text-xs font-semibold ${statusStyle[p.status]}`}
                   >
 
                     {statusLabel[p.status]}
@@ -314,7 +310,7 @@ export default function ProjectsPage() {
 
 
 
-                <p className="mt-1.5 line-clamp-2 flex-1 text-sm text-ink-soft">
+                <p className="mt-2 line-clamp-2 flex-1 text-sm text-ink-soft">
 
                   {p.desc}
 
@@ -324,17 +320,14 @@ export default function ProjectsPage() {
 
 
 
-                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-surface-sunken">
+                <div className="mt-5 h-2 overflow-hidden rounded-full bg-surface-sunken">
 
 
                   <div
-
                     className={`h-full rounded-full ${barTone[p.status]}`}
-
                     style={{
-                      width: `${p.pct}%`
+                      width: `${p.pct}%`,
                     }}
-
                   />
 
 
@@ -344,8 +337,7 @@ export default function ProjectsPage() {
 
 
 
-                <div className="mt-2 flex items-center justify-between text-xs text-ink-faint">
-
+                <div className="mt-3 flex justify-between text-xs text-ink-faint">
 
                   <span>
                     {p.pct}% complete
@@ -355,7 +347,6 @@ export default function ProjectsPage() {
                   <span>
                     {p.due}
                   </span>
-
 
                 </div>
 
@@ -367,24 +358,22 @@ export default function ProjectsPage() {
             ))}
 
 
-
           </section>
 
 
         )}
 
 
-
       </main>
             {showModal && (
 
-        <div className="modal-overlay">
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/40 px-4 backdrop-blur-sm">
 
 
-          <div className="modal">
+          <div className="w-full max-w-md rounded-xl bg-surface p-6 shadow-xl">
 
 
-            <h2>
+            <h2 className="mb-5 text-xl font-bold text-ink">
               Add New Project
             </h2>
 
@@ -392,77 +381,59 @@ export default function ProjectsPage() {
 
 
             <input
-
               type="text"
-
               placeholder="Project name"
-
               value={newProject.name}
-
               onChange={(e) =>
                 setNewProject({
                   ...newProject,
                   name: e.target.value,
                 })
               }
-
+              className="mb-3 w-full rounded-lg border border-line bg-surface-sunken px-3 py-2 text-sm outline-none transition focus:border-brand-500 focus:bg-surface"
             />
 
 
 
 
-
             <textarea
-
-              placeholder="Description"
-
+              placeholder="Project description"
               value={newProject.description}
-
               onChange={(e) =>
                 setNewProject({
                   ...newProject,
                   description: e.target.value,
                 })
               }
-
+              className="mb-3 min-h-28 w-full rounded-lg border border-line bg-surface-sunken px-3 py-2 text-sm outline-none transition focus:border-brand-500 focus:bg-surface"
             />
 
 
 
 
-
             <input
-
               type="text"
-
               placeholder="Due date"
-
               value={newProject.dueDate}
-
               onChange={(e) =>
                 setNewProject({
                   ...newProject,
                   dueDate: e.target.value,
                 })
               }
-
+              className="mb-5 w-full rounded-lg border border-line bg-surface-sunken px-3 py-2 text-sm outline-none transition focus:border-brand-500 focus:bg-surface"
             />
 
 
 
 
 
-
-            <div className="modal-buttons">
-
+            <div className="flex justify-end gap-3">
 
 
               <button
-
-                className="cancel-btn"
-
                 onClick={() => setShowModal(false)}
-
+                className="rounded-lg border border-line px-4 py-2 text-sm font-semibold text-ink transition hover:bg-surface-sunken"
               >
 
                 Cancel
@@ -473,20 +444,14 @@ export default function ProjectsPage() {
 
 
 
-
               <button
-
-                className="create-btn"
-
                 onClick={createProject}
-
+                className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600"
               >
 
                 Create Project
 
               </button>
-
-
 
 
             </div>
@@ -499,9 +464,7 @@ export default function ProjectsPage() {
 
         </div>
 
-
       )}
-
 
 
     </>
