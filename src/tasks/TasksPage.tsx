@@ -3,46 +3,14 @@ import { useState } from "react";
 // src/tasks/TasksPage.tsx
 
 interface Task {
+  id: number;
   title: string;
+  description: string;
   project: string;
   who: string;
   priority: "High" | "Medium" | "Low";
+  status: "To Do" | "In Progress" | "In Review" | "Completed";
 }
-
-const COLUMNS: { name: string; tone: string; tasks: Task[] }[] = [
-  {
-    name: "To Do",
-    tone: "bg-status-todo",
-    tasks: [
-      { title: "Submit council permit application", project: "Riverside Apts", who: "NM", priority: "High" },
-      { title: "Draft Q3 campaign brief", project: "Q3 Marketing Site", who: "TK", priority: "Medium" },
-      { title: "Audit legacy report tables", project: "Data Warehouse", who: "MS", priority: "Low" },
-    ],
-  },
-  {
-    name: "In Progress",
-    tone: "bg-status-active",
-    tasks: [
-      { title: "Finalize structural drawings", project: "Riverside Apts", who: "MS", priority: "High" },
-      { title: "Build portal component library", project: "Client Portal", who: "NM", priority: "Medium" },
-    ],
-  },
-  {
-    name: "In Review",
-    tone: "bg-status-review",
-    tasks: [
-      { title: "Client walkthrough of floor plans", project: "Riverside Apts", who: "TK", priority: "Medium" },
-    ],
-  },
-  {
-    name: "Completed",
-    tone: "bg-status-done",
-    tasks: [
-      { title: "Site survey and soil report", project: "Riverside Apts", who: "NM", priority: "Medium" },
-      { title: "Onboarding flow QA pass", project: "Mobile App", who: "MS", priority: "Low" },
-    ],
-  },
-];
 
 const prioStyle: Record<Task["priority"], string> = {
   High: "bg-prio-highbg text-prio-high",
@@ -50,13 +18,26 @@ const prioStyle: Record<Task["priority"], string> = {
   Low: "bg-prio-lowbg text-prio-low",
 };
 
+const columns = [
+  "To Do",
+  "In Progress",
+  "In Review",
+  "Completed",
+] as const;
+
 export default function TasksPage() {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("");
-  const [status, setStatus] = useState("To Do");
+
+  const [priority, setPriority] = useState<
+    "High" | "Medium" | "Low" | ""
+  >("");
+
+  const [status, setStatus] = useState<
+    "To Do" | "In Progress" | "In Review" | "Completed"
+  >("To Do");
 
   const [error, setError] = useState("");
 
@@ -65,6 +46,8 @@ export default function TasksPage() {
       id: 1,
       title: "Submit council permit application",
       description: "Submit documents for council approval",
+      project: "Riverside Apts",
+      who: "NM",
       priority: "High",
       status: "To Do",
     },
@@ -72,6 +55,8 @@ export default function TasksPage() {
       id: 2,
       title: "Finalize structural drawings",
       description: "Complete building drawings",
+      project: "Riverside Apts",
+      who: "MS",
       priority: "High",
       status: "In Progress",
     },
@@ -79,6 +64,8 @@ export default function TasksPage() {
       id: 3,
       title: "Client walkthrough of floor plans",
       description: "Review plans with client",
+      project: "Riverside Apts",
+      who: "TK",
       priority: "Medium",
       status: "In Review",
     },
@@ -86,10 +73,13 @@ export default function TasksPage() {
       id: 4,
       title: "Site survey and soil report",
       description: "Complete site inspection",
+      project: "Riverside Apts",
+      who: "NM",
       priority: "Medium",
       status: "Completed",
     },
   ]);
+
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -105,19 +95,23 @@ export default function TasksPage() {
     }
 
     if (!priority) {
-      setError("Please select a priority.");
+      setError("Please select priority.");
       return;
     }
+
 
     const newTask: Task = {
       id: Date.now(),
       title,
       description,
+      project: "Riverside Apts",
+      who: "EM",
       priority,
       status,
     };
 
-    setTasks([...tasks, newTask]);
+
+    setTasks((prev) => [...prev, newTask]);
 
     setTitle("");
     setDescription("");
@@ -128,84 +122,221 @@ export default function TasksPage() {
     setIsTaskModalOpen(false);
   }
 
-  function renderTasks(taskStatus: string) {
-    return tasks
-      .filter((task) => task.status === taskStatus)
-      .map((task) => (
-        <div className="task-card" key={task.id}>
-          <span
-            className={
-              task.priority === "High"
-                ? "priority p-high"
-                : task.priority === "Medium"
-                ? "priority p-med"
-                : "priority"
-            }
-          >
-            {task.priority}
-          </span>
-
-          <h3 className="task-title">{task.title}</h3>
-
-          <p>{task.description}</p>
-
-          <div className="task-meta">
-            <span>Riverside Apts</span>
-            <span className="avatar">EM</span>
-          </div>
-        </div>
-      ));
-  }
 
   return (
     <>
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-surface/80 px-8 py-4 backdrop-blur">
+
         <div>
-          <h1 className="text-lg font-bold text-ink">Tasks</h1>
-          <p className="text-xs text-ink-faint">Board view · 8 tasks</p>
+          <h1 className="text-lg font-bold text-ink">
+            Tasks
+          </h1>
+
+          <p className="text-xs text-ink-faint">
+            Board view · {tasks.length} tasks
+          </p>
         </div>
-        <button className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-600">
+
+
+        <button
+          onClick={() => setIsTaskModalOpen(true)}
+          className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600"
+        >
           + New Task
         </button>
+
       </header>
 
+
       <main className="px-8 py-6">
+
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {COLUMNS.map((col) => (
-            <div key={col.name} className="flex flex-col rounded-xl border border-line bg-surface-sunken">
-              <div className="flex items-center justify-between px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <span className={`h-2 w-2 rounded-full ${col.tone}`} />
-                  <span className="text-sm font-semibold text-ink">{col.name}</span>
-                </div>
-                <span className="rounded-full bg-surface px-2 py-0.5 text-xs font-semibold text-ink-soft">
-                  {col.tasks.length}
+
+
+          {columns.map((column) => (
+
+            <div
+              key={column}
+              className="flex flex-col rounded-xl border border-line bg-surface-sunken"
+            >
+
+              <div className="px-4 py-3">
+
+                <span className="text-sm font-semibold text-ink">
+                  {column}
                 </span>
+
               </div>
 
-              <div className="flex flex-1 flex-col gap-2.5 px-2.5 pb-2.5">
-                {col.tasks.map((t) => (
+
+              <div className="flex flex-col gap-2 px-3 pb-3">
+
+
+                {tasks
+                  .filter((task) => task.status === column)
+                  .map((task) => (
+
                   <div
-                    key={t.title}
-                    className="cursor-pointer rounded-lg border border-line bg-surface p-3 shadow-card transition hover:-translate-y-0.5 hover:shadow-raised"
+                    key={task.id}
+                    className="rounded-lg border border-line bg-surface p-3 shadow-card"
                   >
-                    <span className={`inline-block rounded px-1.5 py-0.5 text-[11px] font-semibold ${prioStyle[t.priority]}`}>
-                      {t.priority}
+
+                    <span
+                      className={`inline-block rounded px-2 py-1 text-xs font-semibold ${prioStyle[task.priority]}`}
+                    >
+                      {task.priority}
                     </span>
-                    <h3 className="mt-2 text-sm font-medium leading-snug text-ink">{t.title}</h3>
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-xs text-ink-faint">{t.project}</span>
-                      <span className="grid h-6 w-6 place-items-center rounded-full bg-brand-100 text-[10px] font-semibold text-brand-700">
-                        {t.who}
+
+
+                    <h3 className="mt-2 text-sm font-medium text-ink">
+                      {task.title}
+                    </h3>
+
+
+                    <p className="text-xs text-ink-faint">
+                      {task.description}
+                    </p>
+
+
+                    <div className="mt-3 flex justify-between">
+
+                      <span className="text-xs text-ink-faint">
+                        {task.project}
                       </span>
+
+
+                      <span className="avatar">
+                        {task.who}
+                      </span>
+
                     </div>
+
+
                   </div>
+
                 ))}
+
+
               </div>
+
             </div>
+
           ))}
+
+
         </section>
+
       </main>
+
+
+
+      {isTaskModalOpen && (
+
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40">
+
+
+          <form
+            onSubmit={handleSubmit}
+            className="w-96 rounded-xl bg-white p-6"
+          >
+
+            <h2 className="mb-4 text-lg font-bold">
+              Create New Task
+            </h2>
+
+
+            {error && (
+              <p className="mb-3 text-sm text-red-500">
+                {error}
+              </p>
+            )}
+
+
+            <input
+              className="mb-3 w-full rounded border p-2"
+              placeholder="Task title"
+              value={title}
+              onChange={(e)=>setTitle(e.target.value)}
+            />
+
+
+            <textarea
+              className="mb-3 w-full rounded border p-2"
+              placeholder="Description"
+              value={description}
+              onChange={(e)=>setDescription(e.target.value)}
+            />
+
+
+            <select
+              className="mb-3 w-full rounded border p-2"
+              value={priority}
+              onChange={(e)=>setPriority(e.target.value as any)}
+            >
+              <option value="">
+                Select Priority
+              </option>
+
+              <option value="High">
+                High
+              </option>
+
+              <option value="Medium">
+                Medium
+              </option>
+
+              <option value="Low">
+                Low
+              </option>
+
+            </select>
+
+
+            <select
+              className="mb-4 w-full rounded border p-2"
+              value={status}
+              onChange={(e)=>setStatus(e.target.value as any)}
+            >
+
+              {columns.map((item)=>(
+                <option key={item}>
+                  {item}
+                </option>
+              ))}
+
+            </select>
+
+
+            <div className="flex justify-end gap-3">
+
+
+              <button
+                type="button"
+                onClick={()=>setIsTaskModalOpen(false)}
+                className="rounded bg-gray-200 px-4 py-2"
+              >
+                Cancel
+              </button>
+
+
+              <button
+                type="submit"
+                className="rounded bg-brand-500 px-4 py-2 text-white"
+              >
+                Add Task
+              </button>
+
+
+            </div>
+
+
+          </form>
+
+
+        </div>
+
+      )}
+
     </>
   );
 }
