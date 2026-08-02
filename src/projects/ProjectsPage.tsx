@@ -1,5 +1,15 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
+interface Project {
+  id: string;
+  name: string;
+  description: string;
+  status: string;
+  progress: number;
+  dueDate: string;
+}
 
 interface Project {
   id: string;
@@ -68,6 +78,7 @@ export default function ProjectsPage() {
           />
           <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-500 text-xs font-semibold text-white">MK</span>
         </div>
+
       </header>
 
       <main className="px-8 py-6">
@@ -123,6 +134,100 @@ export default function ProjectsPage() {
           </section>
         )}
       </main>
+
+
+
+
+
+      {showModal && (
+
+        <div className="modal-overlay">
+
+
+          <div className="modal">
+
+
+            <h2>
+              Add New Project
+            </h2>
+
+
+
+            <input
+              type="text"
+              placeholder="Project name"
+              value={newProject.name}
+              onChange={(e) =>
+                setNewProject({
+                  ...newProject,
+                  name: e.target.value
+                })
+              }
+            />
+
+
+
+            <textarea
+              placeholder="Description"
+              value={newProject.description}
+              onChange={(e) =>
+                setNewProject({
+                  ...newProject,
+                  description: e.target.value
+                })
+              }
+            />
+
+
+
+            <input
+              type="text"
+              placeholder="Due date"
+              value={newProject.dueDate}
+              onChange={(e) =>
+                setNewProject({
+                  ...newProject,
+                  dueDate: e.target.value
+                })
+              }
+            />
+
+
+
+
+            <div className="modal-buttons">
+
+
+              <button
+                className="cancel-btn"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+
+
+
+
+              <button
+                className="create-btn"
+                onClick={createProject}
+              >
+                Create Project
+              </button>
+
+
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+      )}
+
+
     </>
   );
 }

@@ -1,0 +1,58 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "name": "Project Management Dashboard",
+      "description": "Build a project management dashboard",
+      "status": "Active",
+      "progress": 60,
+      "deadline": "2026-08-30"
+    },
+    {
+      "id": "2",
+      "name": "Inventory System",
+      "description": "Inventory management application",
+      "status": "On Hold",
+      "progress": 30,
+      "deadline": "2026-09-15"
+    }
+  ],
+
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Create Login Page",
+      "description": "Design login UI",
+      "status": "Completed",
+      "priority": "High",
+      "dueDate": "2026-08-10",
+      "assignedTo": "1",
+      "projectId": "1"
+    },
+    {
+      "id": "2",
+      "title": "Build Dashboard",
+      "description": "Create dashboard layout",
+      "status": "In Progress",
+      "priority": "High",
+      "dueDate": "2026-08-15",
+      "assignedTo": "2",
+      "projectId": "1"
+    }
+  ],
+
+  "teamMembers": [
+    {
+      "id": "1",
+      "name": "John Smith",
+      "role": "Frontend Developer",
+      "avatar": ""
+    },
+    {
+      "id": "2",
+      "name": "Sarah Jones",
+      "role": "Backend Developer",
+      "avatar": ""
+    }
+  ]
+}
