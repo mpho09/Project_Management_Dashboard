@@ -1,76 +1,175 @@
-# React + TypeScript + Vite
+Project Management Dashboard
+A frontend-only project management dashboard built with React, TypeScript, Vite, and Tailwind CSS.
+The application allows users to view projects, manage tasks, track progress, and monitor deadlines through a responsive and user-friendly interface.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Project Overview
+This dashboard provides a streamlined way to manage projects and tasks without requiring a backend.
+Data can be sourced from an existing API, mock API, or provided dataset.
 
-Currently, two official plugins are available:
+Key capabilities include:
+Viewing and filtering projects
+Managing tasks with statuses and priorities
+Tracking deadlines and overdue tasks
+Monitoring project progress and team activity
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Core Features:
 
-## React Compiler
+Dashboard;
+Total projects, active projects, completed projects
+Total tasks, completed tasks, overdue tasks
+Upcoming deadlines
+Project progress overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Projects;
+View all projects
+Search and filter projects by status
+View detailed project information
 
-## Expanding the ESLint configuration
+Project Details;
+Project information and progress
+Task lists and statuses
+Team members and assignments
+Deadlines and recent activity
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Task Management;
+View and create tasks via controlled forms
+Update task status (To Do → In Progress → In Review → Completed)
+Set task priorities
+Assign tasks to team members
+View task details
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Technical Features;
+This project demonstrates modern React + TypeScript practices:
+React functional components
+TypeScript interfaces and typed props
+Typed function arguments and events
+Tailwind CSS for styling
+Responsive design
+React Router with multiple pages
+API or mock data fetching
+Loading, error, and empty states
+Controlled forms with validation
+State management with useState, useEffect, and useContext
+At least one custom hook
+Practical use of useRef
+Lazy loading of components/pages
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+ Suggested Routes;
+/
+/dashboard
+/projects
+/projects/:id
+/tasks/:id
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+Frontend State Management;
+Since this is a frontend-only project, state is managed using:
+React state
+Context API
+LocalStorage
+
+Deliverables;
+Each team must submit:
+A working React + TypeScript application
+GitHub repository with clear documentation
+Deployed application on Vercel
+
+README containing:
+Project overview
+Features
+Technologies used
+Setup instructions
+Data source information
+
+Definition of Done;
+The project is complete when:
+Built with React + TypeScript
+Responsive design implemented
+Multiple pages and routes functional
+Data fetched from API or provided source
+Loading, error, and empty states handled
+Search and filter for projects/tasks available
+Task creation and updates functional
+Context API used for shared state
+Custom hook implemented
+useRef applied for a practical feature
+Lazy loading implemented
+Deployed to Vercel
+GitHub repo includes clear documentation
+
+Technologies Used
+React
+TypeScript
+Vite
+Tailwind CSS
+React Router 
+
+
+
+
+Setup Instructions
+Clone the repository:
+
+bash
+git clone https://github.com/mpho09/Project_Management_Dashboard.git
+cd PROJECT_MANAGEMENT_DASHBOARD
+
+Install dependencies:
+bash
+npm install
+
+Setup Tailwind CSS:
+Install Tailwind and dependencies:
+bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+Configure tailwind.config.js:
+
+js
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {},
   },
-])
+  plugins: [],
+}
 
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Add Tailwind to src/index.css:
+css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Start development server:
+bash
+npm run dev
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+Build for production:
+bash
+npm run build
+
+Preview production build:
+bash
+npm run preview
+ 
+Sample vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
   },
-])
+  build: {
+    outDir: 'dist',
+  },
+})
 
-```
-# Project_Management_Dashboard
+
+Data Source Information
+Data can be fetched from a mock API (e.g., JSON server, static JSON files)
+
+Or integrated with an existing API endpoint
